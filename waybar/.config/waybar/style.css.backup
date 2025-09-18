@@ -1,0 +1,92 @@
+/* Simple Waybar Theme - No CSS Variables */
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Fira Code Nerd Font", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    min-height: 0;
+    color: #ffffff;
+}
+
+window#waybar {
+    background: #141414;
+    color: #ffffff;
+    border-bottom: 2px solid #ff8c00;
+}
+
+#workspaces {
+    padding: 0;
+    margin: 0;
+}
+
+#workspaces button {
+    padding: 4px 12px;
+    margin: 0 2px;
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(255, 140, 0, 0.3);
+    border-radius: 4px;
+}
+
+#workspaces button.active,
+#workspaces button.focused {
+    background: #ff8c00;
+    color: #141414;
+    font-weight: bold;
+}
+
+#window {
+    padding: 4px 16px;
+    margin: 0 8px;
+    background: rgba(42, 42, 42, 0.8);
+    border-radius: 6px;
+}
+
+#mpris {
+    padding: 4px 16px;
+    margin: 0 8px;
+    background: #2a2a2a;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 140, 0, 0.4);
+}
+
+#clock,
+#cpu,
+#memory,
+#temperature,
+#network,
+#pulseaudio,
+#idle_inhibitor,
+#tray {
+    padding: 4px 12px;
+    margin: 0 2px;
+    background: #2a2a2a;
+    border-radius: 4px;
+}
+
+#clock {
+    background: rgba(255, 140, 0, 0.2);
+    border: 1px solid rgba(255, 140, 0, 0.5);
+}
+
+#temperature.critical {
+    background: #ff5555;
+    color: #141414;
+}
+
+#pulseaudio.muted {
+    color: #ff5555;
+}
+
+#network.disconnected {
+    color: #ff5555;
+}
+
+tooltip {
+    background: #141414;
+    border: 2px solid #ff8c00;
+    border-radius: 8px;
+    color: #ffffff;
+}

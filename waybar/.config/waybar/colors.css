@@ -1,0 +1,49 @@
+/* WallRizz Generated Dynamic Colors */
+/* This file overrides CSS variables in the main style.css */
+
+:root {
+    /* Pywal color mappings to CSS variables */
+    --bg-primary: #6d73b4;
+    --bg-secondary: #7a80c1;
+    --bg-accent: #7a80c1;
+    --text-primary: #8b7259;
+    --text-secondary: #987f66;
+    --accent-main: #7b84ac;
+    --accent-hover: #8280a6;
+    --accent-urgent: #e0dce8;
+    --accent-success: #adadc8;
+    --border-color: #7b84ac;
+    
+    /* Direct pywal color access for advanced theming */
+    --color0: #6d73b4;  /* background */
+    --color1: #e0dce8;  /* red/urgent */
+    --color2: #adadc8;  /* green/success */
+    --color3: #9293b6;  /* yellow */
+    --color4: #7b84ac;  /* blue/accent */
+    --color5: #c3bcd3;  /* magenta */
+    --color6: #8280a6;  /* cyan/hover */
+    --color7: #8b7259;  /* foreground */
+    --color8: #7a80c1;  /* bright black */
+    --color15: #987f66; /* bright white */
+}
+
+/* Optional: Override specific elements if needed */
+window#waybar {
+    background: #6d73b4;
+    border-bottom-color: #7b84ac;
+}
+
+#workspaces button.active,
+#workspaces button.focused {
+    background: #7b84ac;
+    color: #6d73b4;
+}
+
+#clock {
+    background: #7b84ac33; /* 20% opacity */
+    border-color: #7b84ac99; /* 60% opacity */
+}
+
+#pulseaudio {
+    background: #adadc826; /* 15% opacity */
+}
