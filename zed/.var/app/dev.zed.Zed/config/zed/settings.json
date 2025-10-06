@@ -1,0 +1,38 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "context_servers": {
+    "browser-tools-context-server": {
+      "source": "extension",
+      "enabled": true,
+      "settings": {}
+    }
+  },
+  "agent": {
+    "default_model": {
+      "provider": "ollama",
+      "model": "gemma3:latest"
+    }
+  },
+  // Font settings - increased from 16 to 18
+  "ui_font_size": 18,
+  "buffer_font_size": 18,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "Catppuccin Macchiato"
+  },
+  // Editor settings
+  "soft_wrap": "editor_width",
+  "bracket_pairs": {
+    "enabled": true
+  },
+  // Alternative bracket pair colorization setting (Zed uses different syntax)
+  "rainbow_brackets": true
+}
