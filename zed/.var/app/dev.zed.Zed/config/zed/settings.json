@@ -20,9 +20,10 @@
       "model": "gemma3:latest"
     }
   },
-  // Font settings - increased from 16 to 18
+  // Font settings - increased from 16 to 18 for accessibility
   "ui_font_size": 18,
   "buffer_font_size": 18,
+  "font_family": "JetBrains Mono",
   "theme": {
     "mode": "system",
     "light": "One Light",
@@ -30,9 +31,78 @@
   },
   // Editor settings
   "soft_wrap": "editor_width",
+  
+  // === ACCESSIBILITY IMPROVEMENTS ===
+  // Bracket pair colorization (correct Zed syntax)
   "bracket_pairs": {
-    "enabled": true
+    "enabled": true,
+    "rainbow": true
   },
-  // Alternative bracket pair colorization setting (Zed uses different syntax)
-  "rainbow_brackets": true
+  
+  // Cursor visibility improvements
+  "cursor_blink": true,
+  "cursor_shape": "block",
+  
+  // Current line highlighting for better focus
+  "highlight_current_line": true,
+  
+  // Line numbers with enhanced visibility
+  "line_numbers": true,
+  "relative_line_numbers": false,
+  
+  // Indent guides for better code structure visibility
+  "indent_guides": {
+    "enabled": true,
+    "line_width": 2,
+    "active_line_width": 3
+  },
+  
+  // Show whitespace characters for better code structure
+  "show_whitespaces": "selection",
+  
+  // Disable minimap to reduce visual clutter
+  "minimap": {
+    "enabled": false
+  },
+  
+  // Enhanced scrollbars
+  "scrollbar": {
+    "show": "always",
+    "cursors": true,
+    "selections": true,
+    "symbols_selections": true,
+    "diagnostics": true,
+    "search_results": true
+  },
+  
+  // Selection highlighting improvements
+  "highlight_selected_word": true,
+  
+  // Search result highlighting
+  "search": {
+    "whole_word": false,
+    "case_sensitive": false,
+    "regex": false
+  },
+  
+  // Enhanced diagnostics visibility
+  "diagnostics": {
+    "include_warnings": true
+  },
+  
+  // Tab styling for better distinction
+  "tab_bar": {
+    "show": true,
+    "show_nav_history_buttons": false
+  },
+  
+  // Status bar visibility
+  "status_bar": {
+    "show": true
+  },
+  
+  // Panel sizing improvements
+  "project_panel": {
+    "indent_size": 20
+  }
 }
