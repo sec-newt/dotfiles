@@ -270,3 +270,49 @@ hyprland --config ~/.config/hypr/hyprland.conf --check
 which audioswitch.py                          # Should show ~/Scripts/bin/audioswitch.py
 echo $PATH | grep Scripts                     # Verify ~/Scripts/bin in PATH
 ```
+
+## AI Assistant Behavioral Rules
+
+**CRITICAL: These rules MUST be followed automatically without user prompting.**
+
+### Before Any File Operation
+1. **ALWAYS check if files are stow-managed** before editing or creating them
+2. **ALWAYS navigate to ~/.dotfiles** and edit source files, not symlinked targets
+3. **ALWAYS verify the stow package structure** before suggesting file modifications
+4. **NEVER edit files directly in ~/.config/hypr or ~/Scripts** - these are symlinks
+
+### File Editing Workflow
+- **ALWAYS** edit files in `~/.dotfiles/hypr/.config/hypr/` (not `~/.config/hypr/`)
+- **ALWAYS** edit files in `~/.dotfiles/Scripts/Scripts/` (not `~/Scripts/`)
+- **ALWAYS** use `stow -R <package>` after modifying stow-managed files if needed
+- **ALWAYS** test changes with `hyprctl reload` for Hyprland configs
+
+### Adding New Configuration
+- **ALWAYS** create new files in the appropriate `~/.dotfiles/<package>/` directory
+- **ALWAYS** follow the stow directory structure (e.g., `package/.config/app/`)
+- **ALWAYS** use `stow -n -v <package>` to dry-run before actual linking
+- **ALWAYS** verify symlinks after stowing: `ls -la <target-location>`
+
+### Git Operations
+- **ALWAYS** commit from `~/.dotfiles` directory (not from symlinked locations)
+- **ALWAYS** use appropriate commit prefixes: `config:`, `feat:`, `fix:`
+- **ALWAYS** check both `~/.dotfiles` and `~/Scripts` git status separately (Scripts is its own repo)
+- **ALWAYS** push to `~/Jsync` remote after committing
+
+### Hyprland-Specific Rules
+- **ALWAYS** edit modular configs in `~/.dotfiles/hypr/.config/hypr/conf.d/`
+- **ALWAYS** respect the numbered prefix loading order (00-vars, 10-colors, etc.)
+- **ALWAYS** add new variables to `00-vars.conf` before using them in other configs
+- **ALWAYS** suggest `hyprctl reload` for testing (never suggest full restart unless necessary)
+
+### Scripts Package Rules
+- **ALWAYS** place new utilities in `~/.dotfiles/Scripts/Scripts/bin/`
+- **ALWAYS** make scripts executable: `chmod +x <script>`
+- **ALWAYS** test scripts can be called from anywhere (PATH integration)
+- **ALWAYS** update Scripts/Scripts/WARP.md if adding new functionality
+
+### Common Mistakes to Avoid
+- **NEVER** suggest editing `~/.config/hypr/` files directly (always use `~/.dotfiles/hypr/.config/hypr/`)
+- **NEVER** suggest editing `~/Scripts/` files without acknowledging it's a symlink
+- **NEVER** commit workspace files or temporary Hyprland state
+- **NEVER** forget to verify symlinks exist before suggesting edits
