@@ -1,0 +1,178 @@
+# Wiki maintenance shortcuts and aliases
+# Source this file in your ~/.bashrc or ~/.zshrc:
+# echo "source ~/.wiki-aliases" >> ~/.bashrc
+
+# Wiki maintenance tools
+alias wiki-check='python3 /home/nk/bin/check-wiki-links.py'
+alias wiki-new='bash /home/nk/bin/new-wiki-doc.sh'
+alias wiki-cd='cd /home/nk/Obsidian/wiki'
+alias wiki-backup='rsync -av /home/nk/Obsidian/wiki/ /backup/wiki-$(date +%Y%m%d)/'
+
+# Quick wiki navigation
+alias wiki-admin='cd /home/nk/Obsidian/wiki/Admin-Reference'
+alias wiki-user='cd /home/nk/Obsidian/wiki/User-Reference'
+alias wiki-guides='cd /home/nk/Obsidian/wiki/User-Guides'
+alias wiki-config='cd /home/nk/Obsidian/wiki/Admin-Reference/Configuration'
+alias wiki-infra='cd /home/nk/Obsidian/wiki/Admin-Reference/Infrastructure'
+alias wiki-trouble='cd /home/nk/Obsidian/wiki/Admin-Reference/Troubleshooting'
+alias wiki-ref='cd /home/nk/Obsidian/wiki/Admin-Reference/Reference'
+
+# Wiki editing shortcuts
+alias wiki-edit-guidelines='$EDITOR /home/nk/Obsidian/wiki/WIKI_GUIDELINES.md'
+alias wiki-edit-inventory='$EDITOR /home/nk/Obsidian/wiki/Admin-Reference/Reference/service-inventory.md'
+alias wiki-edit-topology='$EDITOR /home/nk/Obsidian/wiki/Admin-Reference/Reference/network-topology.md'
+
+# Wiki statistics and information
+alias wiki-stats='echo "📚 Wiki Statistics:" && find /home/nk/Obsidian/wiki -name "*.md" | wc -l | xargs echo "Total files:" && echo "Link status:" && python3 /home/nk/bin/check-wiki-links.py | tail -4'
+alias wiki-find='find /home/nk/Obsidian/wiki -name "*.md" | grep -i'
+alias wiki-search='grep -r --include="*.md" -i'
+
+# Functions for more complex operations
+wiki-help() {
+    echo "📚 Wiki Management Commands:"
+    echo ""
+    echo "📝 Content Management:"
+    echo "  wiki-new \"Title\" [category]    - Create new document with template"
+    echo "  wiki-check                      - Validate all internal links"
+    echo "  wiki-backup                     - Create timestamped backup"
+    echo ""
+    echo "📁 Navigation:"
+    echo "  wiki-cd                         - Go to wiki root"
+    echo "  wiki-admin                      - Go to Admin-Reference"
+    echo "  wiki-user                       - Go to User-Reference" 
+    echo "  wiki-config                     - Go to Configuration"
+    echo "  wiki-infra                      - Go to Infrastructure"
+    echo "  wiki-trouble                    - Go to Troubleshooting"
+    echo ""
+    echo "📊 Information:"
+    echo "  wiki-stats                      - Show wiki statistics"
+    echo "  wiki-find \"pattern\"             - Find files matching pattern"
+    echo "  wiki-search \"term\"              - Search content for term"
+    echo ""
+    echo "⚙️ Editing:"
+    echo "  wiki-edit-guidelines            - Edit the style guide"
+    echo "  wiki-edit-inventory             - Edit service inventory"
+    echo "  wiki-edit-topology              - Edit network topology"
+    echo ""
+    echo "📖 For detailed guidelines, see: /home/nk/Obsidian/wiki/WIKI_GUIDELINES.md"
+}
+
+# Function to create new wiki document with category selection
+wiki-new-interactive() {
+    echo "📝 Create New Wiki Document"
+    echo "══════════════════════════"
+    
+    read -p "Document title: " title
+    if [ -z "$title" ]; then
+        echo "❌ Title required"
+        return 1
+    fi
+    
+    echo ""
+    echo "Select category:"
+    echo "1) Admin-Reference/Configuration"
+    echo "2) Admin-Reference/Infrastructure"
+    echo "3) Admin-Reference/Reference" 
+    echo "4) Admin-Reference/Troubleshooting"
+    echo "5) User-Reference/Environment"
+    echo "6) User-Guides"
+    
+    read -p "Choice (1-6): " choice
+    
+    case $choice in
+        1) category="Admin-Reference/Configuration" ;;
+        2) category="Admin-Reference/Infrastructure" ;;
+        3) category="Admin-Reference/Reference" ;;
+        4) category="Admin-Reference/Troubleshooting" ;;
+        5) category="User-Reference/Environment" ;;
+        6) category="User-Guides" ;;
+        *) echo "❌ Invalid choice"; return 1 ;;
+    esac
+    
+    echo ""
+    echo "Creating: $title"
+    echo "Category: $category"
+    echo ""
+    
+    bash /home/nk/bin/new-wiki-doc.sh "$title" "$category"
+}
+
+# Function to show recent wiki changes
+wiki-recent() {
+    local days=${1:-7}
+    echo "📅 Recent wiki changes (last $days days):"
+    echo "══════════════════════════════════════"
+    find /home/nk/Obsidian/wiki -name "*.md" -mtime -$days -exec ls -la {} \; | sort -k6,8
+}
+
+# Function to validate and report on specific file
+wiki-check-file() {
+    if [ -z "$1" ]; then
+        echo "Usage: wiki-check-file filename.md"
+        return 1
+    fi
+    
+    local file="/home/nk/Obsidian/wiki/$1"
+    if [ ! -f "$file" ]; then
+        echo "❌ File not found: $file"
+        return 1
+    fi
+    
+    echo "📄 Checking file: $1"
+    echo "════════════════════════"
+    
+    # Check for front matter
+    if head -5 "$file" | grep -q "^---$"; then
+        echo "✅ Front matter present"
+        if grep -q "^aliases:" "$file"; then
+            echo "✅ Aliases defined"
+        else
+            echo "⚠️  No aliases found"
+        fi
+    else
+        echo "❌ Missing front matter"
+    fi
+    
+    # Check for standard sections
+    local sections=("Overview" "Related Documentation" "Quick Reference")
+    for section in "${sections[@]}"; do
+        if grep -q "## .*$section" "$file"; then
+            echo "✅ Has $section section"
+        else
+            echo "⚠️  Missing $section section"
+        fi
+    done
+    
+    # Check links in this specific file
+    echo ""
+    echo "🔗 Link validation:"
+    python3 -c "
+import sys, re, os
+from pathlib import Path
+
+os.chdir('/home/nk/Obsidian/wiki')
+content = Path('$1').read_text()
+links = re.findall(r'\[\[([^]]+)\]\]', content)
+print(f'Found {len(links)} internal links')
+
+for link in links:
+    target = link.split('|')[0].split('#')[0].strip()
+    exact_path = Path(f'{target}.md')
+    if exact_path.exists():
+        print(f'✅ {link}')
+    else:
+        # Try filename match
+        filename = f'{target.split(\"/\")[-1]}.md'
+        found = False
+        for f in Path('.').rglob('*.md'):
+            if f.name == filename:
+                print(f'✅ {link} -> {f}')
+                found = True
+                break
+        if not found:
+            print(f'❌ {link}')
+"
+}
+
+echo ""
+echo "📚 Wiki aliases loaded! Type 'wiki-help' for usage information."

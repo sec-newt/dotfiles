@@ -27,7 +27,7 @@
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "Catppuccin Macchiato"
+    "dark": "Colorizer"
   },
   // Editor settings
   "soft_wrap": "editor_width",
@@ -71,7 +71,7 @@
     "cursors": true,
     "selections": true,
     "symbols_selections": true,
-    "diagnostics": true,
+    "diagnostics": "all",
     "search_results": true
   },
   

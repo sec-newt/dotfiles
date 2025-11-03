@@ -1,0 +1,45 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+# # Set up fzf key bindings and fuzzy completion
+eval "$(fzf --bash)"
+# starship
+eval "$(starship init bash)"
+
+# Aliases
+alias vim='nvim'
+alias ls='ls --color'
+
+# Variables
+export EDITOR='nvim'
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+. "$HOME/.cargo/env"
+export GI_TYPELIB_PATH="/usr/local/lib/x86_64-linux-gnu/girepository-1.0:$GI_TYPELIB_PATH"
+
+# Set GPU for Ollama
+export HIP_VISIBLE_DEVICES=1
+
+# Setting up zoxide to be used as cd command (must be at the end)
+eval "$(zoxide init --cmd cd bash)"
+
+# Git repository management functions for Scripts, Hypr, and Obsidian
+if [ -f ~/.config/shell/git-repo-functions.sh ]; then
+    source ~/.config/shell/git-repo-functions.sh
+fi
+export OLLAMA_HOST=http://localhost:11434
+# Wiki management aliases
+source ~/.wiki-aliases
+export PATH="$HOME/Scripts/bin:$HOME/.local/bin:$PATH"

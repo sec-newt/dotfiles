@@ -1,0 +1,6 @@
+[user]
+	email = newtkeeper@proton.me
+	name = nk
+[safe]
+	directory = /library/git/zeus-docker.git
+	directory = /library/docker

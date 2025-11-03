@@ -1,0 +1,50 @@
+#!/bin/bash
+# Fuzzel Configuration Switcher
+# Quick way to switch between different fuzzel configs
+
+CONFIG_DIR="/home/nk/.config/fuzzel"
+
+# Available configurations
+declare -A CONFIGS=(
+    ["normal"]="fuzzel.ini|Default theme with purple accents"
+    ["accessible"]="fuzzel-accessibility.ini|High contrast for better visibility"
+    ["catppuccin"]="fuzzel-catppuccin.ini|Purple theme matching Hyprland"
+    ["keybinds"]="fuzzel-keybinds.ini|Optimized for keybinding lookup"
+)
+
+# Create selection list
+TEMP_FILE="/tmp/fuzzel-configs.txt"
+> "$TEMP_FILE"
+
+for key in "${!CONFIGS[@]}"; do
+    IFS='|' read -r file desc <<< "${CONFIGS[$key]}"
+    echo "$key | $desc ($file)" >> "$TEMP_FILE"
+done
+
+# Show current active config
+CURRENT=$(readlink "$CONFIG_DIR/fuzzel.ini" 2>/dev/null || echo "fuzzel.ini")
+CURRENT_BASE=$(basename "$CURRENT")
+
+echo "current | Currently active: $CURRENT_BASE" >> "$TEMP_FILE"
+
+# Let user select new config
+SELECTION=$(cat "$TEMP_FILE" | fuzzel --dmenu --prompt="Switch Fuzzel Config: " --lines=10 --width=50)
+
+if [[ -n "$SELECTION" ]]; then
+    CONFIG_KEY=$(echo "$SELECTION" | cut -d'|' -f1 | xargs)
+    
+    if [[ "$CONFIG_KEY" == "current" ]]; then
+        hyprctl notify 2 3000 "rgb(00aaff)" "FUZZEL: Currently using $CURRENT_BASE"
+    elif [[ -n "${CONFIGS[$CONFIG_KEY]}" ]]; then
+        IFS='|' read -r file desc <<< "${CONFIGS[$CONFIG_KEY]}"
+        
+        # Backup current config and switch
+        cp "$CONFIG_DIR/fuzzel.ini" "$CONFIG_DIR/fuzzel.ini.bak" 2>/dev/null
+        cp "$CONFIG_DIR/$file" "$CONFIG_DIR/fuzzel.ini"
+        
+        hyprctl notify 1 4000 "rgb(00ff99)" "FUZZEL: Switched to $CONFIG_KEY config"
+    fi
+fi
+
+# Clean up
+rm -f "$TEMP_FILE"

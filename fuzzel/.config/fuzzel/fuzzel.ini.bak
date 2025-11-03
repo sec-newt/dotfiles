@@ -1,0 +1,23 @@
+dpi-aware=no
+icon-theme=Papirus-Dark
+width=25
+font=Hack:size=36
+line-height=40
+fields=name,generic,comment,categories,filename,keywords
+terminal=foot -e
+prompt="❯   "
+show-actions=yes
+exit-on-keyboard-focus-loss=no
+
+[colors]
+background=292d2dfa
+text=fffffffa
+selection-text=fffffffa
+selection=213b3bfa
+border=33ccffee
+
+[border]
+radius=20
+
+[dmenu]
+exit-immediately-if-empty=yes
