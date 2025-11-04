@@ -1,0 +1,120 @@
+#!/bin/bash
+# Hyprland Keybinding Lookup Tool
+# Search and display keybindings using fuzzel
+
+# Create temporary file with all keybindings
+TEMP_FILE="/tmp/keybindings.txt"
+
+# Extract keybindings from Hyprland config with descriptions
+cat > "$TEMP_FILE" << 'EOF'
+Super+Return | Open Warp Terminal (primary terminal)
+Super+Shift+Return | Open Alacritty Terminal (alternative)
+Super+R | Fuzzel Application Launcher (find apps)
+Super+Shift+E | Dolphin File Manager
+Super+Shift+B | Brave Web Browser
+Super+Shift+Z | Zed Code Editor
+Super+Shift+J | Jellyfin Media Player
+Super+Shift+G | Grayjay Video Player
+Super+Shift+R | Dynamic Command Runner (fuzzy search)
+Super+X | Close Active Window
+Super+M | Exit Hyprland (logout)
+Super+Space | Toggle Floating Mode
+Super+F | Fullscreen Toggle
+Super+L | Lock Screen (Hyprlock)
+Super+G | Toggle Window Group (tabbed)
+Super+P | Pseudotile Mode (smart tiling)
+Super+C | Center Floating Window
+Super+Shift+C | Float & Center (one command)
+Super+Ctrl+P | Pin Window (sticky to all workspaces)
+Super+J | Focus Left Window
+Super+K | Focus Right Window
+Super+Ctrl+J | Previous Tab (in group)
+Super+Ctrl+K | Next Tab (in group)
+Super+1-9 | Switch to Workspace 1-9
+Super+0 | Switch to Workspace 10
+Super+Left | Previous Workspace
+Super+Right | Next Workspace
+Super+Shift+1-9 | Move Window to Workspace 1-9
+Super+Shift+0 | Move Window to Workspace 10
+Super+S | Toggle Magic Scratchpad
+Super+Shift+S | Move to Magic Scratchpad
+Super+Ctrl+Return | Toggle Scratchpad Terminal
+Super+Ctrl+0 | Toggle Startup Workspace
+Super+PageDown | Minimize Window (special workspace)
+Super+PageUp | Show Minimized Windows
+Super+Up | Volume Up (+5% with green notification)
+Super+Down | Volume Down (-5% with orange notification)
+Super+Shift+Up | Fine Volume Up (+1%)
+Super+Shift+Down | Fine Volume Down (-1%)
+Super+Backslash | Mute Toggle (ON/OFF notification)
+Super+V | Audio Device Switcher
+Super+W | Weather Display (NOAA GUI)
+Super+I | Window Information Script
+Super+TAB | Simple Workspace Info
+Super+Ctrl+D | Docker Container Count
+Super+MouseUp | Zoom In (screen magnification)
+Super+MouseDown | Zoom Out (reduce magnification)
+Super+F1 | WallRizz Interactive Wallpaper Selector
+Super+Shift+F1 | Random Wallpaper + PyWal Colors
+Super+Ctrl+F1 | Online Wallpaper Browser
+Super+Alt+F1 | Wallpaper List Mode (accessibility)
+Super+Shift+Alt+F1 | Apply Wallpaper Colors to Terminal
+PrintScreen | Full Screenshot (save to file)
+Shift+PrintScreen | Area Screenshot (select and save)
+Ctrl+PrintScreen | Area Screenshot (to clipboard)
+Alt+PrintScreen | Full Screenshot (to clipboard)
+Super+Alt+PrintScreen | Enhanced Screenshot (save + clipboard)
+Super+Ctrl+O | Toggle Orca Screen Reader
+Super+Ctrl+Shift+A | Start Accessibility Services
+Super+Ctrl+S | Speak Current Window Title
+Super+Ctrl+W | Speak Current Workspace
+Super+Shift+H | Toggle High Contrast Mode
+Super+Ctrl+B | Toggle Blur Effects
+Super+Ctrl+F | Highlight Active Window
+Super+Shift+T | Large Text Mode
+Super+Ctrl+Shift+E | Emergency High Contrast
+Super+Ctrl+Shift+R | Reset to Normal Theme
+Super+Shift+Up | Focus Up Window (with audio)
+Super+Shift+Down | Focus Down Window (with audio)
+Super+Shift+Left | Previous Workspace (with audio)
+Super+Shift+Right | Next Workspace (with audio)
+Super+LeftDrag | Move Window (mouse)
+Super+RightDrag | Resize Window (mouse)
+Super+O | Toggle Layout (dwindle ↔ scrolling)
+Super+Alt+Left | Scroll Layout Left (by column)
+Super+Alt+Right | Scroll Layout Right (by column)
+Super+Shift+Alt+Left | Move Window to Left Column
+Super+Shift+Alt+Right | Move Window to Right Column
+Super+Ctrl+Alt+Left | Decrease Column Width
+Super+Ctrl+Alt+Right | Increase Column Width
+Super+Ctrl+Alt+Up | Cycle Column Width Up (preset widths)
+Super+Ctrl+Alt+Down | Cycle Column Width Down (preset widths)
+Super+Alt+Home | Fit Active Column (scrolling layout)
+Super+Alt+End | Fit All Columns (scrolling layout)
+Super+Alt+Return | Promote Window (to own column)
+Super+ThumbBack | Previous Workspace (thumb scroll left)
+Super+ThumbForward | Next Workspace (thumb scroll right)
+Super+Shift+ThumbBack | Move Window to Previous Workspace
+Super+Shift+ThumbForward | Move Window to Next Workspace
+Super+ThumbSide | Toggle Floating Mode (thumb side button)
+Super+MiddleClick | Center Floating Window
+Super+Alt+MiddleClick | Toggle Fullscreen
+EOF
+
+# Use fuzzel with specialized keybinding config for optimal display
+SELECTION=$(cat "$TEMP_FILE" | fuzzel --dmenu --config=/home/nk/.config/fuzzel/fuzzel-keybinds.ini)
+
+if [[ -n "$SELECTION" ]]; then
+    # Extract just the keybinding part and description
+    KEYBIND=$(echo "$SELECTION" | cut -d'|' -f1 | xargs)
+    DESC=$(echo "$SELECTION" | cut -d'|' -f2 | xargs)
+    
+    # Show detailed notification
+    hyprctl notify 1 8000 "rgb(00ccff)" "$KEYBIND: $DESC"
+    
+    # Also copy the keybinding to clipboard for easy reference
+    echo "$KEYBIND" | wl-copy
+fi
+
+# Clean up
+rm -f "$TEMP_FILE"
