@@ -43,3 +43,9 @@ export OLLAMA_HOST=http://localhost:11434
 # Wiki management aliases
 source ~/.wiki-aliases
 export PATH="$HOME/Scripts/bin:$HOME/.local/bin:$PATH"
+
+# TTS Configuration (Piper/OpenAI)
+export TTS_BACKEND=local
+export PIPER_MODEL=$HOME/.local/share/piper/voices/en_US/en_US-amy-medium.onnx
+export PIPER_CONFIG=$HOME/.local/share/piper/voices/en_US/en_US-amy-medium.onnx.json
+export TTS_MPV_ARGS="--audio-channels=stereo"
