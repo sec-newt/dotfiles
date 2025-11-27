@@ -48,4 +48,4 @@ export PATH="$HOME/Scripts/bin:$HOME/.local/bin:$PATH"
 export TTS_BACKEND=local
 export PIPER_MODEL=$HOME/.local/share/piper/voices/en_US/en_US-amy-medium.onnx
 export PIPER_CONFIG=$HOME/.local/share/piper/voices/en_US/en_US-amy-medium.onnx.json
-export TTS_MPV_ARGS="--audio-channels=stereo"
+export TTS_MPV_ARGS="--audio-channels=stereo --speed=1.3"

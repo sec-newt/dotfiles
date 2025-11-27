@@ -64,7 +64,9 @@ Shift+PrintScreen | Area Screenshot (select and save)
 Ctrl+PrintScreen | Area Screenshot (to clipboard)
 Alt+PrintScreen | Full Screenshot (to clipboard)
 Super+Alt+PrintScreen | Enhanced Screenshot (save + clipboard)
-Super+Ctrl+O | Toggle Orca Screen Reader
+Super+Ctrl+O | Toggle Fenrir Screen Reader
+Super+Ctrl+C | Read Selected Text (TTS)
+Super+Ctrl+X | Stop/Cancel Speech (TTS)
 Super+Ctrl+Shift+A | Start Accessibility Services
 Super+Ctrl+S | Speak Current Window Title
 Super+Ctrl+W | Speak Current Workspace
