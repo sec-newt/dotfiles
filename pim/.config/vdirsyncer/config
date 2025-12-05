@@ -1,0 +1,39 @@
+[general]
+status_path = "~/.local/share/vdirsyncer/status/"
+
+# Calendars and Tasks
+[pair calendars]
+a = "calendars_local"
+b = "calendars_remote"
+collections = ["from a", "from b"]
+
+# Contacts
+[pair contacts]
+a = "contacts_local"
+b = "contacts_remote"
+collections = ["from a", "from b"]
+
+# Metadata to sync
+metadata = ["displayname", "color"]
+
+[storage calendars_local]
+type = "filesystem"
+path = "~/.local/share/calendars/"
+fileext = ".ics"
+
+[storage calendars_remote]
+type = "caldav"
+url = "http://100.94.145.55/remote.php/dav/calendars/newt/"
+username = "newt"
+password = "Trodden6LadylikeLyricismStimulate"
+
+[storage contacts_local]
+type = "filesystem"
+path = "~/.local/share/contacts/"
+fileext = ".vcf"
+
+[storage contacts_remote]
+type = "carddav"
+url = "http://100.94.145.55/remote.php/dav/addressbooks/users/newt/"
+username = "newt"
+password = "Trodden6LadylikeLyricismStimulate"

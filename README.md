@@ -51,6 +51,7 @@ All packages follow the convention: files are stored in subdirectories mirroring
 | **starship** | `~/.config/starship.toml` | Shell prompt configuration |
 | **gtk** | `~/.config/gtk-*` & `~/.gtkrc-2.0` | GTK theme and appearance |
 | **qt6ct** | `~/.config/qt6ct` | Qt6 theme and appearance |
+| **pim** | `~/.config/khal`, `~/.config/vdirsyncer`... | PIM Suite (khal, khard, todoman) |
 
 ### Script & Tool Packages
 
