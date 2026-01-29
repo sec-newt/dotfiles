@@ -68,7 +68,7 @@ Super+Ctrl+O | Toggle Fenrir Screen Reader
 Super+Ctrl+C | Read Selected Text (TTS)
 Super+Ctrl+X | Stop/Cancel Speech (TTS)
 Super+Ctrl+Shift+A | Start Accessibility Services
-Super+Ctrl+S | Speak Current Window Title
+Super+Ctrl+S | Speak Current Window (app name + title)
 Super+Ctrl+W | Speak Current Workspace
 Super+Shift+H | Toggle High Contrast Mode
 Super+Ctrl+B | Toggle Blur Effects
@@ -76,6 +76,14 @@ Super+Ctrl+F | Highlight Active Window
 Super+Shift+T | Large Text Mode
 Super+Ctrl+Shift+E | Emergency High Contrast
 Super+Ctrl+Shift+R | Reset to Normal Theme
+Super+Ctrl+L | Locate Cursor (move to window center + announce)
+Super+Shift+A | Toggle Animations (reduced motion mode)
+Super+Shift+F | Toggle Focus-Follows-Mouse (click vs hover)
+Super+Shift+N | Toggle Auto Focus Announce (TTS on focus)
+Super+Shift+Alt+Left | Previous Workspace (with TTS announcement)
+Super+Shift+Alt+Right | Next Workspace (with TTS announcement)
+Super+Ctrl+Up | Brightness Up (+10% DDC/CI)
+Super+Ctrl+Down | Brightness Down (-10% DDC/CI)
 Super+Shift+Up | Focus Up Window (with audio)
 Super+Shift+Down | Focus Down Window (with audio)
 Super+Shift+Left | Previous Workspace (with audio)
