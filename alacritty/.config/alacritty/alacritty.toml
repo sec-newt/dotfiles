@@ -1,0 +1,123 @@
+# Alacritty configuration file - Optimized for Low Vision
+
+[font]
+normal.family = "Fira Code"
+normal.style = "Medium"  # Slightly bolder for better readability
+bold.family = "Fira Code"
+bold.style = "Bold"
+size = 24.0  # Increased for low vision
+
+# Offset to improve letter spacing
+[font.offset]
+x = 1
+y = 1
+
+[window]
+dimensions = { columns = 120, lines = 40 }
+padding = { x = 10, y = 10 }  # Padding reduces edge strain
+decorations = "Full"
+opacity = 1.0  # Full opacity for maximum contrast
+
+# ============================================================
+# CLIPBOARD SETTINGS - This fixes your paste issues
+# ============================================================
+[selection]
+save_to_clipboard = true  # Selecting text auto-copies to clipboard
+
+# ============================================================
+# KEYBOARD BINDINGS - Explicit clipboard controls
+# ============================================================
+[[keyboard.bindings]]
+key = "V"
+mods = "Control|Shift"
+action = "Paste"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Shift"
+action = "Copy"
+
+# Paste from clipboard with Ctrl+V (some apps use this)
+[[keyboard.bindings]]
+key = "V"
+mods = "Control"
+action = "Paste"
+
+# Middle-click paste from primary selection (X11 style)
+[[mouse.bindings]]
+mouse = "Middle"
+action = "PasteSelection"
+
+# Right-click paste from clipboard (Windows/macOS style)
+[[mouse.bindings]]
+mouse = "Right"
+mods = "None"
+action = "Paste"
+
+# ============================================================
+# HIGH CONTRAST COLOR SCHEME FOR LOW VISION
+# ============================================================
+[colors.primary]
+background = "#000000"  # Pure black for maximum contrast
+foreground = "#ffffff"  # Pure white text
+
+[colors.cursor]
+text = "#000000"
+cursor = "#ffff00"  # Bright yellow cursor - highly visible
+
+[colors.vi_mode_cursor]
+text = "#000000"
+cursor = "#ff8800"  # Orange for vi mode distinction
+
+[colors.selection]
+text = "#000000"
+background = "#ffff00"  # Yellow selection - very visible
+
+[colors.search]
+matches = { foreground = "#000000", background = "#00ff00" }  # Green for search matches
+focused_match = { foreground = "#000000", background = "#ff8800" }  # Orange for focused
+
+# High contrast normal colors
+[colors.normal]
+black = "#000000"
+red = "#ff5555"      # Softer red, easier on eyes
+green = "#55ff55"    # Bright green
+yellow = "#ffff55"   # Bright yellow
+blue = "#55ffff"     # Cyan-shifted blue (pure blue is hard to see)
+magenta = "#ff55ff"  # Bright magenta
+cyan = "#55ffff"     # Bright cyan
+white = "#ffffff"    # Pure white
+
+# Bright colors - even more saturated
+[colors.bright]
+black = "#888888"    # Visible gray (not too dark)
+red = "#ff8888"      # Lighter red
+green = "#88ff88"    # Lighter green
+yellow = "#ffff88"   # Lighter yellow
+blue = "#88ffff"     # Lighter cyan-blue
+magenta = "#ff88ff"  # Lighter magenta
+cyan = "#88ffff"     # Lighter cyan
+white = "#ffffff"    # Pure white
+
+# ============================================================
+# CURSOR SETTINGS - Large block cursor
+# ============================================================
+[cursor]
+style = { shape = "Block", blinking = "Off" }  # Block cursor, no blinking
+blink_interval = 0  # Blinking can be distracting
+unfocused_hollow = false  # Solid cursor even when unfocused
+
+# ============================================================
+# SCROLLING
+# ============================================================
+[scrolling]
+history = 10000
+multiplier = 5  # Faster scrolling
+
+# ============================================================
+# HINTS (URL detection) - Make clickable links visible
+# ============================================================
+[hints]
+enabled = [
+  { regex = "(https?://)[^\\s]+", hyperlinks = true, command = "xdg-open", post_processing = true, binding = { key = "U", mods = "Control|Shift" } }
+]
