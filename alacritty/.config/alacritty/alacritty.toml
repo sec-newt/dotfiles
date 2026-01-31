@@ -43,6 +43,21 @@ key = "V"
 mods = "Control"
 action = "Paste"
 
+# Numpad Enter - send same as regular Enter
+[[keyboard.bindings]]
+key = "NumpadEnter"
+chars = "\r"
+
+[[keyboard.bindings]]
+key = "NumpadEnter"
+mods = "Shift"
+chars = "\r"
+
+[[keyboard.bindings]]
+key = "NumpadEnter"
+mods = "Control"
+chars = "\r"
+
 # Middle-click paste from primary selection (X11 style)
 [[mouse.bindings]]
 mouse = "Middle"
