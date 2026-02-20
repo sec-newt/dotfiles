@@ -1,11 +1,11 @@
 # Alacritty configuration file - Optimized for Low Vision
 
 [font]
-normal.family = "Fira Code"
+normal.family = "FiraCode Nerd Font Mono"
 normal.style = "Medium"  # Slightly bolder for better readability
-bold.family = "Fira Code"
+bold.family = "FiraCode Nerd Font Mono"
 bold.style = "Bold"
-size = 24.0  # Increased for low vision
+size = 26.0
 
 # Offset to improve letter spacing
 [font.offset]
