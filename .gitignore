@@ -1,0 +1,6 @@
+# Local machine secrets — never commit
+home/.config/secrets/
+
+# Editor
+*.swp
+.swp

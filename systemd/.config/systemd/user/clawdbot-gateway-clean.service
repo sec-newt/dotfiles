@@ -1,0 +1,24 @@
+[Unit]
+Description=Clawdbot Gateway (profile: clean, v2026.1.24-3)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart="/usr/bin/node" "/home/nk/.npm-global/lib/node_modules/clawdbot/dist/entry.js" gateway --port 18789
+Restart=always
+RestartSec=5
+KillMode=process
+Environment=HOME=/home/nk
+Environment="PATH=/home/nk/.bun/bin:/home/nk/.local/bin:/home/nk/.npm-global/bin:/home/nk/bin:/home/nk/.nvm/current/bin:/home/nk/.fnm/current/bin:/home/nk/.volta/bin:/home/nk/.asdf/shims:/home/nk/.local/share/pnpm:/usr/local/bin:/usr/bin:/bin"
+Environment=CLAWDBOT_PROFILE=clean
+Environment=CLAWDBOT_STATE_DIR=/home/nk/.clawdbot-clean
+Environment="CLAWDBOT_CONFIG_PATH=/home/nk/.clawdbot-clean/clawdbot.json"
+Environment=CLAWDBOT_GATEWAY_PORT=18789
+EnvironmentFile=-/home/nk/.config/secrets/clawdbot-gateway-clean.env
+Environment="CLAWDBOT_SYSTEMD_UNIT=clawdbot-gateway-clean.service"
+Environment=CLAWDBOT_SERVICE_MARKER=clawdbot
+Environment=CLAWDBOT_SERVICE_KIND=gateway
+Environment=CLAWDBOT_SERVICE_VERSION=2026.1.24-3
+
+[Install]
+WantedBy=default.target

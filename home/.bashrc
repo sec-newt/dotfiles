@@ -20,14 +20,16 @@ alias ls='ls --color'
 
 # Variables
 export EDITOR='nvim'
-
+export OLLAMA_API_KEY="ollama-local"
+# Machine-local secrets (tokens, API keys) — sourced from untracked file
+[ -f ~/.config/secrets/env.sh ] && source ~/.config/secrets/env.sh
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 . "$HOME/.cargo/env"
-export GI_TYPELIB_PATH="/usr/local/lib/x86_64-linux-gnu/girepository-1.0:$GI_TYPELIB_PATH"
+# GI_TYPELIB_PATH removed - was Debian/Ubuntu specific (x86_64-linux-gnu path)
 
 # Set GPU for Ollama
 export HIP_VISIBLE_DEVICES=1
@@ -49,3 +51,6 @@ export TTS_BACKEND=local
 export PIPER_MODEL=$HOME/.local/share/piper/voices/en_US/en_US-amy-medium.onnx
 export PIPER_CONFIG=$HOME/.local/share/piper/voices/en_US/en_US-amy-medium.onnx.json
 export TTS_MPV_ARGS="--audio-channels=stereo --speed=1.3"
+export OLLAMA_HOST=127.0.0.1:11434
+export PATH="$HOME/.npm-global/bin:$PATH"
+export PATH="$HOME/.npm-global/bin:$PATH"

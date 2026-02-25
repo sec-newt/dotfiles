@@ -1,0 +1,13 @@
+[Unit]
+Description=Speak D‑Bus notifications for screen‑reader users
+After=graphical-session.target
+
+[Service]
+ExecStart=/home/nk/.local/bin/dbus-speak-notify
+Restart=always
+Environment=DISPLAY=%i
+StandardOutput=append:%h/.cache/dbus-notify-speak.log
+StandardError=inherit
+
+[Install]
+WantedBy=default.target
