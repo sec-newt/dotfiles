@@ -5,10 +5,11 @@ This repository contains configuration files managed by GNU Stow.
 ## Quick Start
 
 ```bash
-# Ensure Stow is installed
-sudo pacstall -I stow || sudo rpk install stow
+# Ensure Stow is installed (Arch Linux)
+sudo pacman -S stow
 
-# Clone/initialize dotfiles
+# Clone the repo
+git clone --recurse-submodules git@github.com:sec-newt/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 
 # Stow all packages
@@ -140,7 +141,17 @@ For new configs:
 
 ## Git Integration
 
-These directories are version controlled and synced to `~/Jsync`:
-- `~/Scripts` → `~/Jsync/Scripts`
-- `~/.config/hypr` → `~/Jsync/hypr` (via symlink to dotfiles)
-- `~/.dotfiles` → separate Git repository
+The `hypr` package is a git submodule pointing to a separate private repo.
+Clone with `--recurse-submodules` to pull it automatically.
+
+Pushing changes:
+```bash
+# Dotfiles changes
+git -C ~/.dotfiles add <files>
+git -C ~/.dotfiles commit -m "config: describe change"
+git -C ~/.dotfiles push origin master
+
+# Hyprland config (submodule — two steps)
+git -C ~/.config/hypr add <files> && git -C ~/.config/hypr commit -m "config: ..." && git -C ~/.config/hypr push origin master
+git -C ~/.dotfiles add hypr && git -C ~/.dotfiles commit -m "chore: bump hypr submodule" && git -C ~/.dotfiles push origin master
+```
