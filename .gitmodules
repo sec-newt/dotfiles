@@ -1,0 +1,3 @@
+[submodule "hypr/.config/hypr"]
+	path = hypr/.config/hypr
+	url = git@github.com:sec-newt/hypr.git
