@@ -54,3 +54,10 @@ export TTS_MPV_ARGS="--audio-channels=stereo --speed=1.3"
 export OLLAMA_HOST=127.0.0.1:11434
 export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$HOME/.npm-global/bin:$PATH"
+
+# OpenClaw CLI auth token (stored in secure file, not dotfiles)
+[ -f ~/.config/environment.d/openclaw.conf ] && set -a && source ~/.config/environment.d/openclaw.conf && set +a
+
+# OpenClaw Completion
+source "/home/nk/.openclaw/completions/openclaw.bash"
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
