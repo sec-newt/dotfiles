@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# ------------------------------------------------------------
+# md2pdf – Convert a Markdown file to PDF using pandoc + XeLaTeX
+# ------------------------------------------------------------
+# • Works with Bash (process substitution is required)
+# • Uses an absolute path to pandoc so the task environment can’t lose it
+# • All conditionals are cleanly separated with newlines/semicolons
+# • Verbose messages are screen‑reader friendly
+# ------------------------------------------------------------
+
+# ------------------- 1️⃣ Argument check -------------------
+if [[ $# -eq 0 ]]; then
+    echo "Usage: $0 <markdown_file.md>"
+    echo "Example: $0 document.md"
+    exit 1
+fi
+
+# ------------------- 2️⃣ Input file ----------------------
+input_file="$1"
+
+if [[ ! -f "$input_file" ]]; then
+    echo "Error: File '$input_file' not found."
+    exit 1
+fi
+
+if [[ "$input_file" != *.md ]]; then
+    echo "Error: File must have a .md extension."
+    exit 1
+fi
+
+# ------------------- 3️⃣ Output file ---------------------
+output_file="${input_file%.md}.pdf"
+
+# ------------------- 4️⃣ Run pandoc ----------------------
+/usr/bin/pandoc "$input_file" \
+    -V geometry:"paperwidth=8.5in,paperheight=11in,top=0.1in,bottom=0.1in,left=0.15in,right=0.15in" \
+    -V linestretch=0.45 \
+    -V parskip=0pt \
+    -V parindent=0pt \
+    -V pagestyle=empty \
+    -V mainfont="DejaVu Sans" \
+    --pdf-engine=xelatex \
+    -H <(echo '\renewcommand{\normalsize}{\fontsize{5.5}{6.5}\selectfont}') \
+    -H <(echo '\renewcommand{\large}{\fontsize{6.5}{7.5}\selectfont}') \
+    -H <(echo '\renewcommand{\Large}{\fontsize{7.5}{8.5}\selectfont}') \
+    -H <(echo '\renewcommand{\LARGE}{\fontsize{8.5}{9.5}\selectfont}') \
+    -H <(echo '\setlength{\baselineskip}{6pt}') \
+    -o "$output_file"
+
+# ------------------- 5️⃣ Success check ------------------
+if [[ $? -eq 0 ]]; then
+    echo "✅ Successfully converted '$input_file' → '$output_file'"
+else
+    echo "❌ Error: Failed to convert '$input_file' to PDF"
+    exit 1
+fi

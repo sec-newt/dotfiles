@@ -12,6 +12,12 @@ application/x-extension-xht=userapp-Firefox-T4EJ82.desktop
 x-scheme-handler/about=app.zen_browser.zen.desktop
 x-scheme-handler/unknown=app.zen_browser.zen.desktop
 application/pdf=net.code_industry.MasterPDFEditor.desktop
+image/jpeg=feh.desktop
+image/png=feh.desktop
+image/gif=feh.desktop
+image/bmp=feh.desktop
+image/tiff=feh.desktop
+image/webp=feh.desktop
 
 [Added Associations]
 application/pdf=org.libreoffice.LibreOffice.draw.desktop;org.kde.okular.desktop;

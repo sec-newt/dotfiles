@@ -1,130 +1,107 @@
 #!/bin/bash
-# Hyprland Keybinding Lookup Tool
-# Search and display keybindings using fuzzel
+# Hyprland Keybinding Lookup — live parser
+# Reads descriptions directly from 40-binds.conf so it's always in sync.
+# Convention: every bind line that should appear here ends with  # Description
 
-# Create temporary file with all keybindings
-TEMP_FILE="/tmp/keybindings.txt"
+CONF="$HOME/.config/hypr/conf.d/40-binds.conf"
+FUZZEL_CONFIG="$HOME/.config/fuzzel/fuzzel-keybinds.ini"
 
-# Extract keybindings from Hyprland config with descriptions
-cat > "$TEMP_FILE" << 'EOF'
-Super+Return | Open Warp Terminal (primary terminal)
-Super+Shift+Return | Open Alacritty Terminal (alternative)
-Super+R | Fuzzel Application Launcher (find apps)
-Super+Shift+E | Dolphin File Manager
-Super+Shift+B | Brave Web Browser
-Super+Shift+Z | Zed Code Editor
-Super+Shift+J | Jellyfin Media Player
-Super+Shift+G | Grayjay Video Player
-Super+Shift+R | Dynamic Command Runner (fuzzy search)
-Super+X | Close Active Window
-Super+M | Exit Hyprland (logout)
-Super+Space | Toggle Floating Mode
-Super+F | Fullscreen Toggle
-Super+L | Lock Screen (Hyprlock)
-Super+G | Toggle Window Group (tabbed)
-Super+P | Pseudotile Mode (smart tiling)
-Super+C | Center Floating Window
-Super+Shift+C | Float & Center (one command)
-Super+Ctrl+P | Pin Window (sticky to all workspaces)
-Super+J | Focus Left Window
-Super+K | Focus Right Window
-Super+Ctrl+J | Previous Tab (in group)
-Super+Ctrl+K | Next Tab (in group)
-Super+1-9 | Switch to Workspace 1-9
-Super+0 | Switch to Workspace 10
-Super+Left | Previous Workspace
-Super+Right | Next Workspace
-Super+Shift+1-9 | Move Window to Workspace 1-9
-Super+Shift+0 | Move Window to Workspace 10
-Super+S | Toggle Magic Scratchpad
-Super+Shift+S | Move to Magic Scratchpad
-Super+Ctrl+Return | Toggle Scratchpad Terminal
-Super+Ctrl+0 | Toggle Startup Workspace
-Super+PageDown | Minimize Window (special workspace)
-Super+PageUp | Show Minimized Windows
-Super+Up | Volume Up (+5% with green notification)
-Super+Down | Volume Down (-5% with orange notification)
-Super+Shift+Up | Fine Volume Up (+1%)
-Super+Shift+Down | Fine Volume Down (-1%)
-Super+Backslash | Mute Toggle (ON/OFF notification)
-Super+V | Audio Device Switcher
-Super+W | Weather Display (NOAA GUI)
-Super+I | Window Information Script
-Super+TAB | Simple Workspace Info
-Super+Ctrl+D | Docker Container Count
-Super+MouseUp | Zoom In (screen magnification)
-Super+MouseDown | Zoom Out (reduce magnification)
-Super+F1 | WallRizz Interactive Wallpaper Selector
-Super+Shift+F1 | Random Wallpaper + PyWal Colors
-Super+Ctrl+F1 | Online Wallpaper Browser
-Super+Alt+F1 | Wallpaper List Mode (accessibility)
-Super+Shift+Alt+F1 | Apply Wallpaper Colors to Terminal
-PrintScreen | Full Screenshot (save to file)
-Shift+PrintScreen | Area Screenshot (select and save)
-Ctrl+PrintScreen | Area Screenshot (to clipboard)
-Alt+PrintScreen | Full Screenshot (to clipboard)
-Super+Alt+PrintScreen | Enhanced Screenshot (save + clipboard)
-Super+Ctrl+O | Toggle Fenrir Screen Reader
-Super+Ctrl+C | Read Selected Text (TTS)
-Super+Ctrl+X | Stop/Cancel Speech (TTS)
-Super+Ctrl+Shift+A | Start Accessibility Services
-Super+Ctrl+S | Speak Current Window (app name + title)
-Super+Ctrl+W | Speak Current Workspace
-Super+Shift+H | Toggle High Contrast Mode
-Super+Ctrl+B | Toggle Blur Effects
-Super+Ctrl+F | Highlight Active Window
-Super+Shift+T | Large Text Mode
-Super+Ctrl+Shift+E | Emergency High Contrast
-Super+Ctrl+Shift+R | Reset to Normal Theme
-Super+Ctrl+L | Locate Cursor (move to window center + announce)
-Super+Shift+A | Toggle Animations (reduced motion mode)
-Super+Shift+F | Toggle Focus-Follows-Mouse (click vs hover)
-Super+Shift+N | Toggle Auto Focus Announce (TTS on focus)
-Super+Shift+Alt+Left | Previous Workspace (with TTS announcement)
-Super+Shift+Alt+Right | Next Workspace (with TTS announcement)
-Super+Ctrl+Up | Brightness Up (+10% DDC/CI)
-Super+Ctrl+Down | Brightness Down (-10% DDC/CI)
-Super+Shift+Up | Focus Up Window (with audio)
-Super+Shift+Down | Focus Down Window (with audio)
-Super+Shift+Left | Previous Workspace (with audio)
-Super+Shift+Right | Next Workspace (with audio)
-Super+LeftDrag | Move Window (mouse)
-Super+RightDrag | Resize Window (mouse)
-Super+O | Toggle Layout (dwindle ↔ scrolling)
-Super+Alt+Left | Scroll Layout Left (by column)
-Super+Alt+Right | Scroll Layout Right (by column)
-Super+Shift+Alt+Left | Move Window to Left Column
-Super+Shift+Alt+Right | Move Window to Right Column
-Super+Ctrl+Alt+Left | Decrease Column Width
-Super+Ctrl+Alt+Right | Increase Column Width
-Super+Ctrl+Alt+Up | Cycle Column Width Up (preset widths)
-Super+Ctrl+Alt+Down | Cycle Column Width Down (preset widths)
-Super+Alt+Home | Fit Active Column (scrolling layout)
-Super+Alt+End | Fit All Columns (scrolling layout)
-Super+Alt+Return | Promote Window (to own column)
-Super+ThumbBack | Previous Workspace (thumb scroll left)
-Super+ThumbForward | Next Workspace (thumb scroll right)
-Super+Shift+ThumbBack | Move Window to Previous Workspace
-Super+Shift+ThumbForward | Move Window to Next Workspace
-Super+ThumbSide | Toggle Floating Mode (thumb side button)
-Super+MiddleClick | Center Floating Window
-Super+Alt+MiddleClick | Toggle Fullscreen
-EOF
+# ---------------------------------------------------------------------------
+# Convert a raw Hyprland modifier string to "Super+Shift+..." notation
+# ---------------------------------------------------------------------------
+format_mods() {
+    local mods="$1"
+    mods="${mods//\$mainMod/Super}"
+    mods="${mods//SHIFT/Shift}"
+    mods="${mods//CTRL/Ctrl}"
+    mods="${mods//ALT/Alt}"
+    # Trim, collapse spaces, join with +
+    echo "$mods" | xargs | tr ' ' '+'
+}
 
-# Use fuzzel with specialized keybinding config for optimal display
-SELECTION=$(cat "$TEMP_FILE" | fuzzel --dmenu --config=/home/nk/.config/fuzzel/fuzzel-keybinds.ini)
+# ---------------------------------------------------------------------------
+# Convert a raw Hyprland key name to a readable label
+# ---------------------------------------------------------------------------
+format_key() {
+    local key
+    key="$(echo "$1" | xargs)"   # trim whitespace
+    case "${key,,}" in
+        return)          echo "Enter" ;;
+        space)           echo "Space" ;;
+        backslash)       echo "\\" ;;
+        slash)           echo "/" ;;
+        tab)             echo "Tab" ;;
+        next)            echo "Page Down" ;;
+        prior)           echo "Page Up" ;;
+        home)            echo "Home" ;;
+        end)             echo "End" ;;
+        up)              echo "Up" ;;
+        down)            echo "Down" ;;
+        left)            echo "Left" ;;
+        right)           echo "Right" ;;
+        print)           echo "PrintScreen" ;;
+        mouse_down)      echo "Scroll Down" ;;
+        mouse_up)        echo "Scroll Up" ;;
+        mouse_left)      echo "Thumb Back" ;;
+        mouse_right)     echo "Thumb Forward" ;;
+        "mouse:272")     echo "Left Click" ;;
+        "mouse:273")     echo "Right Click" ;;
+        "mouse:274")     echo "Middle Click" ;;
+        "mouse:277")     echo "Thumb Side" ;;
+        xf86audioplay)   echo "MediaPlay" ;;
+        xf86audionext)   echo "MediaNext" ;;
+        xf86audioprev)   echo "MediaPrev" ;;
+        xf86audiostop)   echo "MediaStop" ;;
+        *)               echo "$key" ;;
+    esac
+}
 
-if [[ -n "$SELECTION" ]]; then
-    # Extract just the keybinding part and description
-    KEYBIND=$(echo "$SELECTION" | cut -d'|' -f1 | xargs)
-    DESC=$(echo "$SELECTION" | cut -d'|' -f2 | xargs)
-    
-    # Show detailed notification
-    hyprctl notify 1 8000 "rgb(00ccff)" "$KEYBIND: $DESC"
-    
-    # Also copy the keybinding to clipboard for easy reference
-    echo "$KEYBIND" | wl-copy
+# ---------------------------------------------------------------------------
+# Parse the config and build "Combo | Description" lines
+# ---------------------------------------------------------------------------
+build_entries() {
+    while IFS= read -r line; do
+        # Must be a bind line with a trailing # description
+        [[ "$line" =~ ^bind[mr]?[[:space:]]*=[[:space:]]*(.*)[[:space:]]#[[:space:]]*(.+)$ ]] || continue
+
+        lhs="${BASH_REMATCH[1]}"
+        desc="${BASH_REMATCH[2]}"
+
+        # Split lhs on commas: field 1 = modifiers, field 2 = key
+        IFS=',' read -r raw_mods raw_key _rest <<< "$lhs"
+
+        mods="$(format_mods "$raw_mods")"
+        key="$(format_key "$raw_key")"
+
+        if [[ -z "$mods" ]]; then
+            combo="$key"
+        else
+            combo="${mods}+${key}"
+        fi
+
+        printf '%s | %s\n' "$combo" "$desc"
+    done < "$CONF"
+}
+
+# ---------------------------------------------------------------------------
+# Show in fuzzel and act on selection
+# ---------------------------------------------------------------------------
+ENTRIES="$(build_entries)"
+
+if [[ -z "$ENTRIES" ]]; then
+    hyprctl notify 1 4000 "rgb(ff4444)" "keybind-lookup: no entries found — check $CONF"
+    exit 1
 fi
 
-# Clean up
-rm -f "$TEMP_FILE"
+if [[ -f "$FUZZEL_CONFIG" ]]; then
+    SELECTION=$(echo "$ENTRIES" | fuzzel --dmenu --config="$FUZZEL_CONFIG")
+else
+    SELECTION=$(echo "$ENTRIES" | fuzzel --dmenu)
+fi
+
+if [[ -n "$SELECTION" ]]; then
+    KEYBIND=$(echo "$SELECTION" | cut -d'|' -f1 | xargs)
+    DESC=$(echo "$SELECTION" | cut -d'|' -f2 | xargs)
+    hyprctl notify 1 8000 "rgb(00ccff)" "$KEYBIND: $DESC"
+    echo "$KEYBIND" | wl-copy
+fi
