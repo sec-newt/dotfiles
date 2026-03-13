@@ -1,20 +1,20 @@
 [general]
 status_path = "~/.local/share/vdirsyncer/status/"
 
-# Calendars and Tasks
+# Calendars
 [pair calendars]
 a = "calendars_local"
 b = "calendars_remote"
 collections = ["from a", "from b"]
+metadata = ["displayname", "color"]
+conflict_resolution = "b wins"
 
 # Contacts
 [pair contacts]
 a = "contacts_local"
 b = "contacts_remote"
-collections = ["from a", "from b"]
-
-# Metadata to sync
-metadata = ["displayname", "color"]
+collections = [["contacts2026", "contacts2026", "contacts2026"]]
+metadata = ["displayname"]
 
 [storage calendars_local]
 type = "filesystem"
@@ -23,9 +23,9 @@ fileext = ".ics"
 
 [storage calendars_remote]
 type = "caldav"
-url = "http://100.94.145.55/remote.php/dav/calendars/newt/"
+url = "http://zeus:5232/newt/"
 username = "newt"
-password = "Trodden6LadylikeLyricismStimulate"
+password = "changeme"
 
 [storage contacts_local]
 type = "filesystem"
@@ -34,6 +34,6 @@ fileext = ".vcf"
 
 [storage contacts_remote]
 type = "carddav"
-url = "http://100.94.145.55/remote.php/dav/addressbooks/users/newt/"
+url = "http://zeus:5232/newt/"
 username = "newt"
-password = "Trodden6LadylikeLyricismStimulate"
+password = "changeme"

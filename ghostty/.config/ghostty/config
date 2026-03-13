@@ -1,0 +1,130 @@
+# ============================================================
+# GHOSTTY CONFIG — Low Vision Accessibility + Native Features
+# Reload config: Ctrl+Shift+,
+# ============================================================
+
+# ===== FONT =====
+font-family = FiraCode Nerd Font Mono
+font-style = Medium
+font-size = 26
+
+# Extra letter spacing for readability
+adjust-cell-width = 1
+adjust-cell-height = 1
+
+# ===== WINDOW =====
+window-padding-x = 10
+window-padding-y = 10
+background-opacity = 1.0
+
+# Initial window size (columns x rows)
+window-width = 120
+window-height = 40
+
+# ===== HIGH CONTRAST COLORS =====
+background = #000000
+foreground = #ffffff
+
+# Bright yellow cursor — highly visible
+cursor-color = #ffff00
+cursor-text = #000000
+cursor-style = block
+cursor-style-blink = false
+
+# Yellow selection highlight
+selection-background = #ffff00
+selection-foreground = #000000
+
+# 16-color palette — high contrast
+# Normal colors (0–7)
+palette = 0=#000000
+palette = 1=#ff5555
+palette = 2=#55ff55
+palette = 3=#ffff55
+palette = 4=#55ffff
+palette = 5=#ff55ff
+palette = 6=#55ffff
+palette = 7=#ffffff
+# Bright colors (8–15)
+palette = 8=#888888
+palette = 9=#ff8888
+palette = 10=#88ff88
+palette = 11=#ffff88
+palette = 12=#88ffff
+palette = 13=#ff88ff
+palette = 14=#88ffff
+palette = 15=#ffffff
+
+# ===== CLIPBOARD =====
+# Auto-copy selected text to clipboard
+copy-on-select = true
+# Allow programs to read clipboard without prompting
+clipboard-read = allow
+# Ctrl+V paste — matches existing workflow
+# Note: overrides raw ^V in apps like vim (use Ctrl+Q for raw escape)
+keybind = ctrl+v=paste_from_clipboard
+
+# ===== LINKS =====
+# Ctrl+click to open URLs directly
+# Ctrl+Shift+U copies the URL under cursor to clipboard (no open_url action exists)
+link-url = true
+keybind = ctrl+shift+u=copy_url_to_clipboard
+
+# ===== SHELL INTEGRATION =====
+# Enables Ghostty-exclusive features (auto-detected for bash/zsh/fish):
+#   - Ctrl+Shift+PgUp / Ctrl+Shift+PgDn  — jump between shell prompts
+#   - Ctrl+Shift+Z                        — scroll to current prompt
+#   - Prompt markers shown in scrollbar
+shell-integration = detect
+shell-integration-features = sudo,title,no-cursor,ssh-terminfo
+
+# ===== BELL =====
+# No audio — window manager attention flash + title change only
+# (attention = taskbar/decoration highlight, no-system = no audio beep)
+bell-features = no-system,no-audio,attention,title
+
+# ===== NOTIFICATIONS =====
+# Desktop notification when a long command finishes while you're away
+notify-on-command-finish = unfocused
+notify-on-command-finish-after = 10s
+
+# ===== ACCESSIBILITY =====
+# Force minimum contrast ratio for any app that picks its own colors
+# 4.5 = WCAG AA standard for normal text
+minimum-contrast = 4.5
+
+# Click anywhere on the prompt line to move the cursor there (requires shell integration)
+cursor-click-to-move = true
+
+# ===== MOUSE =====
+# Faster scrolling — matches Alacritty multiplier = 5
+mouse-scroll-multiplier = 5
+
+# ===== TABS & SPLITS =====
+# New tabs and splits open in the same directory you're currently in
+tab-inherit-working-directory = true
+
+# ===== GHOSTTY NATIVE FEATURES (active by default) =====
+# These work out of the box — no config needed, listed as a reference:
+#
+# TABS (like browser tabs, without a separate window):
+#   Ctrl+Shift+T              new tab
+#   Ctrl+Shift+W              close tab
+#   Ctrl+Tab / Ctrl+Shift+Tab next / previous tab
+#   Alt+1..9                  jump to tab N
+#
+# SPLITS (split the terminal like a mini tiling WM):
+#   Ctrl+Shift+O              split right
+#   Ctrl+Shift+E              split down
+#   Ctrl+Alt+Arrow            navigate between splits
+#   Ctrl+Shift+Enter          zoom/unzoom current split
+#
+# FONT SIZE (adjust on the fly without restarting):
+#   Ctrl++ / Ctrl+-           increase / decrease font size
+#   Ctrl+0                    reset to configured size (26pt)
+#
+# OTHER:
+#   Ctrl+Shift+P              command palette (discover any action)
+#   Ctrl+Enter                fullscreen toggle
+#   Ctrl+Shift+,              reload this config file
+#   Ctrl+Shift+I              inspector (debug terminal rendering)

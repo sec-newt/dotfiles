@@ -3,8 +3,8 @@
 # echo "source ~/.wiki-aliases" >> ~/.bashrc
 
 # Wiki maintenance tools
-alias wiki-check='python3 /home/nk/bin/check-wiki-links.py'
-alias wiki-new='bash /home/nk/bin/new-wiki-doc.sh'
+alias wiki-check='python3 /home/nk/Scripts/bin/check-wiki-links.py'
+alias wiki-new='bash /home/nk/Scripts/bin/new-wiki-doc.sh'
 alias wiki-cd='cd /home/nk/Obsidian/wiki'
 alias wiki-backup='rsync -av /home/nk/Obsidian/wiki/ /backup/wiki-$(date +%Y%m%d)/'
 
@@ -23,7 +23,7 @@ alias wiki-edit-inventory='$EDITOR /home/nk/Obsidian/wiki/Admin-Reference/Refere
 alias wiki-edit-topology='$EDITOR /home/nk/Obsidian/wiki/Admin-Reference/Reference/network-topology.md'
 
 # Wiki statistics and information
-alias wiki-stats='echo "📚 Wiki Statistics:" && find /home/nk/Obsidian/wiki -name "*.md" | wc -l | xargs echo "Total files:" && echo "Link status:" && python3 /home/nk/bin/check-wiki-links.py | tail -4'
+alias wiki-stats='echo "📚 Wiki Statistics:" && find /home/nk/Obsidian/wiki -name "*.md" | wc -l | xargs echo "Total files:" && echo "Link status:" && python3 /home/nk/Scripts/bin/check-wiki-links.py | tail -4'
 alias wiki-find='find /home/nk/Obsidian/wiki -name "*.md" | grep -i'
 alias wiki-search='grep -r --include="*.md" -i'
 
@@ -94,7 +94,7 @@ wiki-new-interactive() {
     echo "Category: $category"
     echo ""
     
-    bash /home/nk/bin/new-wiki-doc.sh "$title" "$category"
+    bash /home/nk/Scripts/bin/new-wiki-doc.sh "$title" "$category"
 }
 
 # Function to show recent wiki changes
