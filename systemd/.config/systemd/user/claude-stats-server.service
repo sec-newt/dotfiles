@@ -1,0 +1,12 @@
+[Unit]
+Description=Claude Code stats HTTP server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/nk/Scripts/bin/claude-stats-server.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

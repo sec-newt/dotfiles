@@ -6,6 +6,7 @@ After=graphical-session.target
 ExecStart=/home/nk/.local/bin/dbus-speak-notify
 Restart=always
 Environment=DISPLAY=%i
+Environment=PULSE_SINK=alsa_output.usb-ESI_Audiotechnik_GmbH_U22_XT_USB-01.analog-stereo
 StandardOutput=append:%h/.cache/dbus-notify-speak.log
 StandardError=inherit
 
