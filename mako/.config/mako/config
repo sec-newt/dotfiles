@@ -1,0 +1,51 @@
+# Mako notification daemon config
+# Matches Hyprland theme: dark background, amber/orange accent border
+
+# Layout
+anchor=top-right
+margin=12
+padding=12,16
+width=360
+height=100
+border-size=3
+border-radius=8
+
+# Timing — auto-dismiss after 7 seconds
+default-timeout=7000
+ignore-timeout=0
+
+# Colors — dark background, amber border matching Hyprland active border
+background-color=#1e1e2eff
+text-color=#cdd6f4ff
+border-color=#d8a861ff
+progress-color=over #45475aff
+
+# Typography
+font=sans 11
+
+# Icons
+max-icon-size=48
+icon-path=/usr/share/icons/Papirus-Dark
+
+# Behavior
+markup=1
+actions=1
+format=<b>%s</b>\n%b
+
+# Grouped notifications
+[grouped]
+format=<b>%s</b> (%g)\n%b
+
+# Urgency overrides
+[urgency=low]
+border-color=#585b70ff
+default-timeout=5000
+
+[urgency=normal]
+border-color=#d8a861ff
+default-timeout=7000
+
+[urgency=high]
+border-color=#f38ba8ff
+background-color=#2a1a1aff
+default-timeout=0
