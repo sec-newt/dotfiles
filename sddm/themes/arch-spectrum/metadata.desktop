@@ -1,0 +1,11 @@
+[SddmGreeterTheme]
+Name=arch-spectrum
+Description=Dark Side of the Moon — deep space wallpaper, spectrum gradient accents, clean dark card
+Author=nk
+License=MIT
+Type=sddm-theme
+Version=1.0
+MainScript=Main.qml
+ConfigFile=theme.conf
+Theme-Id=arch-spectrum
+Theme-API=2.0
