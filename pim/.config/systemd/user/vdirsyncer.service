@@ -1,8 +1,9 @@
 [Unit]
 Description=Synchronize calendars and contacts
 Documentation=https://vdirsyncer.pimutils.org/
+After=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/pipx run vdirsyncer sync
+ExecStart=/usr/bin/vdirsyncer sync
 RuntimeMaxSec=300
