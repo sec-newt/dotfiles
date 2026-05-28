@@ -1,1 +1,11 @@
-../../../.dotfiles/pim/.config/systemd/user/vdirsyncer.timer
+[Unit]
+Description=Synchronize calendars and contacts every 15 minutes
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=15min
+Persistent=true
+Unit=vdirsyncer.service
+
+[Install]
+WantedBy=timers.target

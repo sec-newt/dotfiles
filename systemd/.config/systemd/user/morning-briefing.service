@@ -1,0 +1,7 @@
+[Unit]
+Description=Daily morning briefing (Claude Code)
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/Scripts/bin/morning-briefing.sh
