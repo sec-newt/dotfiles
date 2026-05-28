@@ -1,0 +1,7 @@
+[Unit]
+Description=Daily devotional (Claude Code)
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/Scripts/bin/daily-devotional.sh

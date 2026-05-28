@@ -1,0 +1,9 @@
+[Unit]
+Description=Run the daily devotional at 5:30 AM
+
+[Timer]
+OnCalendar=*-*-* 05:30:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
