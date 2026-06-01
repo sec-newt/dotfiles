@@ -7,6 +7,9 @@ systemd/.config/systemd/user/openclaw-gateway.service
 systemd/.config/systemd/user/openclaw-gateway.service.bak
 systemd/.config/systemd/user/default.target.wants/openclaw-gateway.service
 
+# Claude Code per-machine local overrides — never stow, never commit
+claude/.claude/settings.local.json
+
 # Editor
 *.swp
 .swp

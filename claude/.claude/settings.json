@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /home/nk/Scripts/ status)",
+      "Bash(git -C /home/nk/Scripts/ remote -v)"
+    ]
+  },
+  "enabledPlugins": {
+    "code-simplifier@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true,
+    "telegram@claude-plugins-official": true
+  },
+  "model": "opus",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/nk/Scripts/bin/claude-load-context.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
