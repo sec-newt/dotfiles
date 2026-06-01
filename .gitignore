@@ -5,7 +5,11 @@ home/.config/secrets/
 # Contains OPENCLAW_GATEWAY_TOKEN inline; never commit
 systemd/.config/systemd/user/openclaw-gateway.service
 systemd/.config/systemd/user/openclaw-gateway.service.bak
+systemd/.config/systemd/user/openclaw-gateway.env
 systemd/.config/systemd/user/default.target.wants/openclaw-gateway.service
+
+# Python bytecode caches
+**/__pycache__/
 
 # Claude Code per-machine local overrides — never stow, never commit
 claude/.claude/settings.local.json
