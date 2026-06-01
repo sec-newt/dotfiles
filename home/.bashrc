@@ -18,6 +18,7 @@ eval "$(starship init bash)"
 alias vim='nvim'
 alias ls='ls --color'
 alias hypr-unlock='faillock --reset --user nk && hyprctl -i 0 keyword misc:allow_session_lock_restore 1 && hyprctl -i 0 dispatch exec hyprlock'
+alias invoice-render='python3 /home/nk/Scripts/render_invoice.py'
 
 # Variables
 export EDITOR='nvim'
