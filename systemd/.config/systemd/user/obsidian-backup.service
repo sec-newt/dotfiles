@@ -1,0 +1,8 @@
+[Unit]
+Description=Mirror ~/Obsidian (all vaults incl. Becca's) to zeus
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/Scripts/obsidian/obsidian-backup.sh
+TimeoutStartSec=900

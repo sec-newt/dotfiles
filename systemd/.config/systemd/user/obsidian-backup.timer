@@ -1,0 +1,10 @@
+[Unit]
+Description=Nightly Obsidian backup to zeus
+
+[Timer]
+OnCalendar=*-*-* 21:00:00
+Persistent=true
+Unit=obsidian-backup.service
+
+[Install]
+WantedBy=timers.target
